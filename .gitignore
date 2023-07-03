@@ -27,3 +27,6 @@ sysinfo.txt
 /UnityVS.tolua.CSharp.csproj
 /UnityVS.tolua.CSharp.Editor.csproj
 /UnityVS.tolua.sln
+
+# VSCode
+.vscode/launch.json

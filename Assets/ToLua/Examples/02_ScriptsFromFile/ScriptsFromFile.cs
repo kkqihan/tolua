@@ -12,7 +12,7 @@ public class ScriptsFromFile : MonoBehaviour
 
 	void Start () 
     {
-#if UNITY_5 || UNITY_2017 || UNITY_2018		
+#if UNITY_5_3_OR_NEWER	
         Application.logMessageReceived += Log;
 #else
         Application.RegisterLogCallback(Log);
@@ -37,7 +37,7 @@ public class ScriptsFromFile : MonoBehaviour
         if (GUI.Button(new Rect(50, 50, 120, 45), "DoFile"))
         {
             strLog = "";
-            lua.DoFile("ScriptsFromFile.lua");                        
+            lua.DoFile("ScriptsFromFile");                        
         }
         else if (GUI.Button(new Rect(50, 150, 120, 45), "Require"))
         {
@@ -53,7 +53,7 @@ public class ScriptsFromFile : MonoBehaviour
     {
         lua.Dispose();
         lua = null;
-#if UNITY_5 || UNITY_2017 || UNITY_2018	
+#if UNITY_5_3_OR_NEWER
         Application.logMessageReceived -= Log;
 #else
         Application.RegisterLogCallback(null);

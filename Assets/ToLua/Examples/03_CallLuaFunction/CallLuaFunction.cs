@@ -3,7 +3,7 @@ using System.Collections;
 using LuaInterface;
 using System;
 
-public class CallLuaFunction : MonoBehaviour 
+public class CallLuaFunction : MonoBehaviour
 {
     private string script =
         @"  function luaFunc(num)                        
@@ -17,18 +17,18 @@ public class CallLuaFunction : MonoBehaviour
     LuaFunction luaFunc = null;
     LuaState lua = null;
     string tips = null;
-	
-	void Start () 
+
+    void Start()
     {
-#if UNITY_5 || UNITY_2017 || UNITY_2018
+#if UNITY_5_3_OR_NEWER
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
 #endif
-        new LuaResLoader();
+        // new LuaResLoader();
         lua = new LuaState();
         lua.Start();
-        DelegateFactory.Init();        
+        DelegateFactory.Init();
         lua.DoString(script);
 
         //Get the function object
@@ -45,13 +45,13 @@ public class CallLuaFunction : MonoBehaviour
             Func<int, int> Func = luaFunc.ToDelegate<Func<int, int>>();
             num = Func(123456);
             Debugger.Log("Delegate call return: {0}", num);
-            
+
             num = lua.Invoke<int, int>("test.luaFunc", 123456, true);
             Debugger.Log("luastate call return: {0}", num);
         }
 
         lua.CheckTop();
-	}
+    }
 
     void ShowTips(string msg, string stackTrace, LogType type)
     {
@@ -77,7 +77,7 @@ public class CallLuaFunction : MonoBehaviour
         lua.Dispose();
         lua = null;
 
-#if UNITY_5 || UNITY_2017 || UNITY_2018
+#if UNITY_5_3_OR_NEWER
         Application.logMessageReceived -= ShowTips;
 #else
         Application.RegisterLogCallback(null);
@@ -85,12 +85,12 @@ public class CallLuaFunction : MonoBehaviour
     }
 
     int CallFunc()
-    {        
-        luaFunc.BeginPCall();                
+    {
+        luaFunc.BeginPCall();
         luaFunc.Push(123456);
-        luaFunc.PCall();        
+        luaFunc.PCall();
         int num = (int)luaFunc.CheckNumber();
         luaFunc.EndPCall();
-        return num;                
+        return num;
     }
 }

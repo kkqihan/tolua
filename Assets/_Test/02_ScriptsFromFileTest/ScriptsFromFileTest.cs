@@ -56,7 +56,7 @@ public class ScriptsFromFileTest : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        //Lua虚拟机鞋子啊
+        //Lua虚拟机卸载
         luaState.Dispose();
         luaState = null;
 

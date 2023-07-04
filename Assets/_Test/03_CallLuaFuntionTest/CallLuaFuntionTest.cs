@@ -16,6 +16,11 @@ public class CallLuaFuntionTest : MonoBehaviour
     /// </summary>
     private LuaState luaState;
 
+    /// <summary>
+    /// 求和的Lua方法
+    /// </summary>
+    private LuaFunction addLuaFunc;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +46,7 @@ public class CallLuaFuntionTest : MonoBehaviour
 
         //测试函数调用 LuaFunction.Invoke
         #region LuaFunction.Invoke
-        LuaFunction addLuaFunc = luaState.GetFunction("tools.add");
+        addLuaFunc = luaState.GetFunction("tools.add");
         total = addLuaFunc.Invoke<int, int, int>(numA, numB);
         Debug.LogFormat("LuaFunction.Invoke. result={0}", total);
         #endregion
@@ -86,6 +91,10 @@ public class CallLuaFuntionTest : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        //Lua求和方法卸载
+        addLuaFunc.Dispose();
+        addLuaFunc = null;
+
         //Lua虚拟机卸载
         luaState.Dispose();
         luaState = null;

@@ -8,6 +8,7 @@ public class LuaStateManager
     {
         get
         {
+            //进行实例化
             if (m_Instance == null)
             {
                 m_Instance = new LuaStateManager();
@@ -17,7 +18,14 @@ public class LuaStateManager
         }
     }
 
+    /// <summary>
+    /// 状态机
+    /// </summary> <summary>
+    /// 
+    /// </summary>
     public LuaState luaState;
+
+    private LuaLooper luaLooper = null;
 
     public LuaStateManager()
     {
@@ -26,6 +34,9 @@ public class LuaStateManager
         luaState.Start();
         //类绑定
         LuaBinder.Bind(luaState);
+        //添加LuaLooper组件
+        luaLooper = GameObject.Find("Manager").AddComponent<LuaLooper>();
+        luaLooper.luaState = luaState;
         //添加Lua文件的搜索路径
         string luaDir = string.Format("{0}/_Test/RollABall/Scripts/Lua", Application.dataPath);
         luaState.AddSearchPath(luaDir);

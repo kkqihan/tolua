@@ -9,6 +9,7 @@ public class LuaBehaviour : MonoBehaviour
     private LuaFunction luaFunc_Start;
     private LuaFunction luaFunc_FixedUpdate;
     private LuaFunction luaFunc_Update;
+    private LuaFunction luaFunc_LateUpdate;
 
     void Awake()
     {
@@ -21,7 +22,7 @@ public class LuaBehaviour : MonoBehaviour
         luaFunc_Awake = GetFunction("Awake");
         luaFunc_Start = GetFunction("Start");
         luaFunc_FixedUpdate = GetFunction("FixedUpdate");
-        luaFunc_Update = GetFunction("Update");
+        luaFunc_Update = GetFunction("LateUpdate");
 
         //执行方法
         luaFunc_Awake.Call(gameObject);
@@ -40,6 +41,11 @@ public class LuaBehaviour : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        luaFunc_Update?.Call();
+    }
+
+    void LateUpdate()
     {
         luaFunc_Update?.Call();
     }
